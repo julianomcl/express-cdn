@@ -110,7 +110,7 @@
     "walk": "~2.2.1",
     "async": "~0.2.9",
     "request": "~2.16.6",
-    "uglify-js": "~2.4.3",
+    "uglify-js": "^3.0.16",
     "underscore.string": "~2.3.1"
   },
   "dependencies": {
