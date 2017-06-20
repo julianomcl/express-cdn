@@ -76,7 +76,9 @@ Assets are optimized, minified, mangled, gzipped, delivered by Amazon CloudFront
     with `'bucket.s3-xxx.amazonaws.com'` for non `US Standard` regions)
 2. Upload <a href="https://raw.github.com/niftylettuce/express-cdn/master/index.html">index.html</a> to your new bucket (this will serve as a placeholder in case someone accesses <http://cdn.your-site.com/>).
 3. Select `index.html` in the Objects and Folders view from your S3 console and click **Actions &rarr; Make Public**.
-4. Visit <https://console.aws.amazon.com/cloudfront/home> and click **Create Distribution**.
+4. Visit <https://console.aws.amazon.com/cloudfront/home> and click
+(The cloudfront takes 24 to update the cache, so only use it if you don't are not in a hurry)
+**Create Distribution**.
   * Choose an origin:
       - Origin Domain Name: `bucket-name.s3.amazonaws.com`
       - Origin ID: `S3-bucket-name`
@@ -135,12 +137,13 @@ var options = {
   , viewsDir   : path.join(__dirname, 'views')
   , domain     : 'cdn.your-domain.com'
   , bucket     : 'bucket-name'
+  , region     : 'sa-east-1' // default is us-standard
   , endpoint   : 'bucket-name.s3.amazonaws.com' // optional
   , key        : 'amazon-s3-key'
   , secret     : 'amazon-s3-secret'
   , hostname   : 'localhost'
   , port       : (sslEnabled ? 443 : 1337)
-  , ssl        : sslEnabled
+  , ssl        : sslEnabled // true, false, relative
   , production : true
 };
 
@@ -234,6 +237,12 @@ app.listen(1337);
 
 <!-- #9 - Load a favicon -->
 <%- CDN('/img/favicon.ico') %>
+
+<!-- #10 - Local to load stylesheet -->
+<%- CDNCSSRESULT() %>
+
+<!-- #11 - Local to load scripts -->
+<%- CDNJSRESULT() %>
 ```
 
 ### Automatically Rendered HTML
